@@ -27,7 +27,7 @@ if html_doc:
     #print(bodyString)
 
     #Set up the csv for data storage
-    with open('pokemonDP.csv', mode='w') as data_file:
+    with open('pokemonDP.csv', mode='w', newline='') as data_file:
         data_writer = csv.writer(data_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
         data_writer.writerow(["season", "episode", "line", "character", "dialogue"])
 
