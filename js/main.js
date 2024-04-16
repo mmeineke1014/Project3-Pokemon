@@ -9,7 +9,7 @@ d3.csv('data/pokemonDP.csv')
       d.episode = +d.episode;
       d.character = d.character;
       d.line = d.line;
-      d.dialogue = d.dialogue
+      d.dialogue = d.dialogue;
      
 
     });
