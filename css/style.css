@@ -1,0 +1,122 @@
+#my-map {
+  width: 100%;
+  height: 70vh;
+}
+
+#tooltip {
+  position: absolute;
+  opacity: 0;
+  background: #fff;
+  box-shadow: 2px 2px 3px 0px rgb(92 92 92 / 0.5);
+  border: 1px solid #ddd;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 2px 8px;
+}
+.tooltip-label {
+  font-weight: 500;
+  font-size: 10px;
+  color: #888;
+}
+
+.mapdiv {
+  width: 60%;
+  height: 70vh;
+}
+
+.visdiv {
+  width: 40%;
+  height: 70vh;
+}
+
+.detaildiv {
+  width: 25%;
+}
+
+.timelinediv{
+  width: 75%;
+}
+
+.row{
+  display: flex;
+  flex-direction: row;
+}
+
+#body {
+  width: 80%;
+  margin-left: 10%;
+  margin-top: 2.5%;
+  font-size: large;
+}
+
+a:link{
+  color: rgb(0, 195, 205);
+}
+a:visited{
+  color: darkcyan;
+}
+a:hover{
+  color:chartreuse;
+}
+a:active{
+  color:darkturquoise;
+}
+
+.selectButton{
+  font-size: large;
+  margin-top: 1vh;
+  padding: 0.5vh 0.5vw;
+}
+
+/* settings button css stuff */
+.settings-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 5px 10px;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: x-large;
+}
+
+/* CSS for the modal window */
+.modal {
+  display: none; /* Hide the modal by default */
+  position: fixed;
+  z-index: 9999; /* Set a high z-index value */
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.4); /* Black with transparency */
+}
+
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  position: relative; /* Ensure relative positioning for child elements */
+}
+
+/* CSS for the close button */
+.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #000;
+  cursor: pointer;
+  z-index: 99999; /* Ensure the close button appears above modal content */
+}
+
+/* Change cursor style on hover */
+.close:hover {
+  color: #f00; /* Change color on hover */
+}
