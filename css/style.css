@@ -1,0 +1,20 @@
+.buttonsDiv {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.column {
+  float: left;
+  width: 50%;
+  height: 100%;
+}
+
+#body {
+  width: 80%;
+  margin-left: 10%;
+  margin-top: 2.5%;
+  font-size: large;
+}
