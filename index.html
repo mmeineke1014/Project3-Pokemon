@@ -1,13 +1,49 @@
 <!DOCTYPE html>
 <html>
 <head>
- 
+    <title>Welcome to Sinnoh!</title>
+    <link rel="icon" href="images/pokeball.png" />
+    <!--Note: Icon sourced from Freepik-->
+    <link rel="stylesheet" href="css/style.css">
 </head>
+<body>
+    <h1 style="text-align: center;">Welcome to Sinnoh!</h1>
+    <p style="text-align: center;"><i>Developed by Ashley Finn, Shay Kleeh, and Mary Meineke</i></p>
+    <p id="body">[TODO: PROJECT AND SHOW OVERVIEW]</p>
+    
+    <div style="background-color: lightpink; width: 100%; height: 45vh;">
+        <svg id="overview_bargraph"></svg>
+    </div>
+
+    <div class="buttonsDiv" style="background-color: rgb(75, 72, 72);">
+        <button>CHARACTER 1</button>
+        <button>CHARACTER 2</button>
+        <button>CHARACTER 3</button>
+        <button>CHARACTER 4</button>
+        <button>CHARACTER 5</button>
+        <button>CHARACTER 6</button>
+        <button>CHARACTER 7</button>
+        <button>CHARACTER 8</button>
+        <button>CHARACTER 9</button>
+        <button>CHARACTER 10</button>
+    </div>
+
+    <div class="row">
+        <div class="column" style="background-color: cyan;">
+            <h3 id="characterName">[CHARACTER NAME]</h3>
+            <p id="appearences"><b>Episode Appearences:</b> TBD</p>
+            <p id="numLines"><b>Lines of Dialogue:</b> TBD</p>
+            <svg id="heatmap"></svg>
+        </div>
+
+        <div class="column" style="background-color: darkcyan;">
+            <p>TODO: B GOALS - WHAT THEY SAY</p>
+        </div>
+
+    </div>
 
     
     <script src="js/d3.v6.min.js"></script>
-
-
     <script src="js/main.js"></script>
 
 </body>
