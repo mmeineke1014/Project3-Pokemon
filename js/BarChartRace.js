@@ -57,7 +57,7 @@ class BarChartRace {
         .attr("x", this.chartSettings.width / 2)
         .attr("y", this.chartSettings.padding / 2)
         .attr("text-anchor", "middle")
-        .text("Chart Title");
+        .text("Pokemon DP Bar Chart Race");
   
       // Append current date text
       this.chartContainer.append("text")
@@ -65,18 +65,23 @@ class BarChartRace {
         .attr("x", this.chartSettings.innerWidth)
         .attr("y", this.chartSettings.innerHeight)
         .attr("text-anchor", "end")
-        .text("Current Date");
+        .text("Current Episode:");
   }
 
-  draw({ episode, dataSet }, transition) {
+  draw(data, transition) {
+    const { episode, dataSet } = data;
     const { innerHeight, titlePadding } = this.chartSettings;
+
+    // Set title with current season and episode
+    const { season, episode: currentEpisode } = this.chartDataSets[this.currentDataSetIndex];
+    this.setTitle(`Season ${season}, Episode ${currentEpisode}`);
+
     // Log the characters array
-   // Extract characters from dataSet
-   const characters = dataSet;
+    // Extract characters from dataSet
+    const characters = dataSet;
 
-   // Log the characters array to verify
-   console.log("Characters array:", characters);
-
+    // Log the characters array to verify
+    console.log("Characters array:", characters);
    this.xAxisScale.domain([0, d3.max(characters, d => d.value)]);
    this.yAxisScale.domain(characters.map(d => d.name));
 
@@ -209,7 +214,14 @@ class BarChartRace {
     d3.select(".chart-title")
         .attr("x", titleX)
         .attr("y", titleY)
-        .text(title);
+        .text("Pokemon DP Bar Chart Race");
+    
+    // Update the "current-date" text to display season and episode
+    d3.select(".current-date")
+    .attr("x", this.chartSettings.innerWidth)
+    .attr("y", this.chartSettings.innerHeight)
+    .attr("text-anchor", "end")
+    .text(title);
 
     return this;
 }

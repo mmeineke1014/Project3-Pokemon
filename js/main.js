@@ -6,7 +6,6 @@ d3.csv('data/pokemonDP.csv')
     // Create and render the bar chart race
     const chart = new BarChartRace("chart", { /* extended settings */ }) // Instantiate the BarChartRace class
       .addDatasets(dataSets)
-      .setTitle("Pokemon DP Bar Chart Race")
       .render();
   })
   .catch(error => {
