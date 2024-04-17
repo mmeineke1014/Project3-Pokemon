@@ -70,7 +70,10 @@ with open('pokemonDP.csv', mode='w', newline='', encoding='utf-8') as data_file:
             if bodyString is not None:
 
                 #pick out ALLCAPS followed by : using regex
-                pattern = re.compile('[A-Z][A-Z, ]*[A-Z]:')
+                # Update: Now pick out all caps strings that start with a letter, end with a colon, and potentially
+                # contain bracketed conclusions, or extra '.', ',', or ' ' characters at the end, as well as
+                # having '&' or "'" in the string body.
+                pattern = re.compile("[A-Z][A-Z&,() ']*\[?[A-Z ]*\]?[A-Z., ]?[A-Z., ]?:")
 
                 dialogueCount = 0       #variable to keep track of number of dialogue lines for ordering
 
