@@ -89,13 +89,15 @@ with open('pokemonDP.csv', mode='w', newline='', encoding='utf-8') as data_file:
                 for k in range(len(speakerIndexes)):
                     #Extract speaker and dialogue from the 
                     speakerName = bodyString[int(speakerIndexes[k][0]):int(speakerIndexes[k][1]) - 1] #-1 gets rid of ':'
+                    speakerName =speakerName.strip()
                     
-                    #for dialogue, +1 gets rid of leading space
                     if k < len(speakerIndexes) -1:
-                        dialogue = bodyString[int(speakerIndexes[k][1])+1:int(speakerIndexes[k+1][0])]
+                        dialogue = bodyString[int(speakerIndexes[k][1]):int(speakerIndexes[k+1][0])]
+                        dialogue = dialogue.strip()
                     else:
                         # for the last piece of dialogue, take everything until the end
                         dialogue = bodyString[int(speakerIndexes[k][1])+1:-1]
+                        dialogue = dialogue.strip()
 
                     print("LOG: " + season + " " + episode + " " + str(dialogueCount) + " " + speakerName + " " + dialogue)
                     data_writer.writerow([season, episode, dialogueCount, speakerName, dialogue])
