@@ -4,9 +4,15 @@ d3.csv('data/pokemonDP.csv')
     const dataSets = generateDataSets(data);
 
     // Create and render the bar chart race
-    const chart = new BarChartRace("chart", { /* extended settings */ }) // Instantiate the BarChartRace class
-      .addDatasets(dataSets)
-      .render();
+    //const chart = new BarChartRace("chart", { /* extended settings */ }) // Instantiate the BarChartRace class
+    //  .addDatasets(dataSets)
+    //  .render();
+
+    const heatmap = new Heatmap({
+        'parentElement': "#heatmap",
+        "containerWidth": 500,
+        "containerHeight": 500
+    }, data, "ASH");
   })
   .catch(error => {
     console.error("Error loading the CSV file:", error);
@@ -73,4 +79,4 @@ d3.csv('data/pokemonDP.csv')
 
     console.log(allEpisodes);
     return allEpisodes;
-}
+    }
