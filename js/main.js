@@ -1,22 +1,38 @@
+let heatmap
+
 d3.csv('data/pokemonDP.csv')
   .then(data => {
     // Data preprocessing and generation
     const dataSets = generateDataSets(data);
 
     // Create and render the bar chart race
-    //const chart = new BarChartRace("chart", { /* extended settings */ }) // Instantiate the BarChartRace class
-    //  .addDatasets(dataSets)
-    //  .render();
+    const chart = new BarChartRace("chart", { /* extended settings */ }) // Instantiate the BarChartRace class
+      .addDatasets(dataSets)
+      .render();
 
-    const heatmap = new Heatmap({
+    heatmapHeight = document.getElementById("heatmap_div").clientHeight;
+    heatmapWidth = document.getElementById("heatmap_div").clientWidth;
+
+    heatmap = new Heatmap({
         'parentElement': "#heatmap",
-        "containerWidth": 500,
-        "containerHeight": 500
+        "containerWidth": heatmapWidth,
+        "containerHeight": heatmapHeight
     }, data, "ASH");
   })
   .catch(error => {
     console.error("Error loading the CSV file:", error);
   });
+
+  addEventListener("resize", resizeVisualizations);
+
+  function resizeVisualizations(){
+    console.log("RESIZE")
+
+    heatmap.config.containerHeight = document.getElementById("heatmap_div").clientHeight;
+    heatmap.config.containerWidth = document.getElementById("heatmap_div").clientWidth;
+
+    heatmap.updateVis();
+  }
   
   function generateDataSets(data) {
     // Group data by season and episode

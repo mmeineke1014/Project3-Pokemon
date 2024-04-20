@@ -4,7 +4,7 @@ class Heatmap {
             parentElement: _config.parentElement,
             containerWidth: _config.containerWidth || 750,
             containerHeight: _config.containerHeight || 500,
-            margin: {top: 10, right: 50, bottom: 40, left: 50},
+            margin: {top: 40, right: 50, bottom: 10, left: 50},
             tooltipPadding: _config.tooltipPadding || 15  
         }
 
@@ -30,7 +30,6 @@ class Heatmap {
         vis.chart = vis.svg.append('g')
             .attr('transform', `translate(${vis.config.margin.left}, ${vis.config.margin.top})`);
 
-
         // Initialize the scales
         //Graph Scales:
         vis.xScale = d3.scaleBand()
@@ -46,23 +45,30 @@ class Heatmap {
         //Color Scales:
         vis.s10Scale = d3.scaleLinear()
                             .domain([0,1])
-                            .range(["#FFFFFF", "#A70F23"])
+                            .range(["#FFFFFF", "#44000b"])
                             .interpolate(d3.interpolateHcl);
 
         vis.s11Scale = d3.scaleLinear()
                             .domain([0,1])
-                            .range(["#FFFFFF","#6511A6"])
+                            .range(["#FFFFFF","#2b0044"])
                             .interpolate(d3.interpolateHcl);
 
         vis.s12Scale = d3.scaleLinear()
                             .domain([0,1])
-                            .range(["#FFFFFF","#0066A6"])
+                            .range(["#FFFFFF","#002544"])
                             .interpolate(d3.interpolateHcl);
 
         vis.s13Scale = d3.scaleLinear()
                             .domain([0,1])
-                            .range(["#FFFFFF", "#00A846"])
+                            .range(["#FFFFFF", "#004412"])
                             .interpolate(d3.interpolateHcl);
+
+        vis.xAxisLabel = vis.chart.append('text')
+                            .attr('class', 'x label')
+                            .attr("text-anchor", "end")
+                            .attr("x", 0)
+                            .attr("y", 0)
+                            .text("Episode Appearences");
 
         vis.updateVis()
     }
@@ -70,6 +76,8 @@ class Heatmap {
     updateVis(){
         console.log("UPDATE VIS")
         let vis = this;
+
+        vis.xAxisLabel.remove();
 
        //Calculate the height and width of the visualizations, factoring margins              
        vis.width = vis.config.containerWidth - vis.config.margin.left - vis.config.margin.right;
@@ -88,6 +96,33 @@ class Heatmap {
         //caculate the appearence data
 
         var appearenceData = this.calcAppearenceIndexes();
+
+        //Calculate stats for the total number of lines a character speakes and how many episodes they
+        // appear in
+        var totLines = 0;
+        var totEps = 0;
+
+        appearenceData.forEach( (d) => {
+            totLines += d["charLines"];
+
+            if(d["charLines"] > 0){
+                totEps++;
+            }
+        })
+
+        console.log(totLines, totEps);
+
+        //Display those statistics on the screen
+        document.getElementById("appearences").innerHTML = ("<b>Episode Appearences:</b> " + String(totEps));
+        document.getElementById("numLines").innerHTML = ("<b>Lines of Dialogue:</b> " + String(totLines));
+
+        //Label the chart
+        vis.xAxisLabel = vis.chart.append('text')
+            .attr('class', 'x label')
+            .attr("text-anchor", "end")
+            .attr("x", vis.width/1.5)
+            .attr("y", -vis.config.margin.top/2)
+            .text("Episode Appearences");
 
 
         //plot the data
@@ -121,6 +156,29 @@ class Heatmap {
                 .attr("height", vis.yScale.bandwidth())
                 .attr('rx', 4)
                 .attr('ry', 4);
+    
+        vis.rectangles
+          .on('mouseover', (event, d) => {
+            console.log("mouse over! ");
+            console.log(event);
+            console.log(d);
+          
+          d3.select('#tooltip')
+            .style('display', 'block')
+            .style('left', (event.pageX + vis.config.tooltipPadding) + 'px')   
+            .style('top', (event.pageY - 75) + 'px')
+            .html(`
+                <div class="tooltip-title">Season: ${d.season}, Episode: ${d.episode}</div>
+                <ul>
+                    <li>Lines spoken by this character: ${d.charLines}</li>
+                    <li>Percentage of lines in episode: ${((d.charLines / d.totLines) * 100).toFixed(1)}</li>
+                </ul>
+            `);
+        })
+        .on('mouseleave', () => {
+          d3.select('#tooltip').style('display', 'none');
+        });
+    
     }
 
     calcEpisodeCoordinates(season, episode){
@@ -144,7 +202,7 @@ class Heatmap {
         x = total % 14;
         y = Math.floor(total/14);
 
-        console.log(season, episode, x, y)
+        //console.log(season, episode, x, y)
 
         return [x,y]
     }
@@ -176,7 +234,8 @@ class Heatmap {
             }
             
             // check if the speaker is the character, if so increment the character line count
-            if(d.character.includes(this.character)){
+            if(d.character == this.character || d.character.includes(" " + this.character)
+                || d.character.includes(this.character + ",")){
                 appearenceData[indexes[indexString]]["charLines"]++;
             }
         })
