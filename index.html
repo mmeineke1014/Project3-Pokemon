@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Welcome to Sinnoh!</title>
+    <title>Gotta Catch 'em All!</title>
     <link rel="icon" href="images/pokeball.png" />
     <!--Note: Icon sourced from Freepik-->
     <link rel="stylesheet" href="css/style.css">
@@ -11,26 +11,56 @@
     <p style="text-align: center;"><i>Developed by Ashley Finn, Shay Kleeh, and Mary Meineke</i></p>
     <p id="body">[TODO: PROJECT AND SHOW OVERVIEW]</p>
     
-    <div id="bar-chart-container" style="background-color: lightpink; width: 100%; height: 48vh;">
+    <div id="bar-chart-container" style="background-color: #ffc6c6; width: 100%; height: 55vh;">
        
     </div>
 
-    <div class="buttonsDiv" style="background-color: rgb(75, 72, 72);">
-        <button>ASH KETCHUM</button>
-        <button>PIKACHU</button>
-        <button>DAWN</button>
-        <button>BROCK</button>
-        <button>JESSIE</button>
-        <button>JAMES</button>
-        <button>MEOWTH</button>
-        <button>PAUL</button>
-        <button>ZOEY</button>
-        <button>BARRY</button>
+    <div class="buttonsDiv" style="background-color: #9f9f9f;">
+        <button class="character-button">
+            <img src="images\393px-Ash_DP_3.png" alt="Ash Ketchum" class="circle" id="ASH">
+        </button>
+
+        <button class="character-button">
+            <img src="images\025Pikachu_XY_anime.png" alt="Pikachu" class="circle" id="PIKACHU">
+        </button>
+        
+        <button class="character-button">
+            <img src="images\536px-Dawn_DP.png" alt="Dawn" class="circle" id="DAWN">
+        </button>
+
+        <button class="character-button">
+            <img src="images\462px-Brock_DP_Anime_art.png" alt="Brock" class="circle" id="BROCK">
+        </button>
+
+        <button class="character-button">
+            <img src="images\423px-Jessie_JN.png" alt="Jessie" class="circle" id="JESSIE">
+        </button>
+
+        <button class="character-button">
+            <img src="images\322px-James_JN.png" alt="James" class="circle" id="JAMES">
+        </button>
+
+        <button class="character-button">
+            <img src="images\854px-Meowth_anime.png" alt="Meowth" class="circle" id="MEOWTH">
+        </button>
+
+        <button class="character-button">
+            <img src="images\Paul_DP.png" alt="Paul" class="circle" id="PAUL">
+        </button>
+
+        <button class="character-button">
+            <img src="images\20220328212950!Zoey.png" alt="Zoey" class="circle" id="ZOEY">
+        </button>
+
+        <button class="character-button">
+            <img src="images\Barry_anime.png" alt="Barry" class="circle" id="BARRY">
+        </button>
+
     </div>
 
-    <div class="row" style="height: 55vh;">
+    <div class="row" style="height: 50vh;">
         <div class="column" style="background-color: white;">
-            <h3 id="characterName">[CHARACTER NAME]</h3>
+            <h3 id="characterName">Ash Ketchum</h3>
             <p id="appearences"></p>
             <p id="numLines"></p>
             <div id="heatmap_div" style="height: 75%;">
@@ -45,6 +75,7 @@
     </div>
 
     <div id="tooltip"></div>
+    <svg height="5" width="5" xmlns="http://www.w3.org/2000/svg" version="1.1"> <defs> <pattern id="lightstripe" patternUnits="userSpaceOnUse" width="5" height="5"> <image xlink:href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPSc1JyBoZWlnaHQ9JzUnPgogIDxyZWN0IHdpZHRoPSc1JyBoZWlnaHQ9JzUnIGZpbGw9J3doaXRlJy8+CiAgPHBhdGggZD0nTTAgNUw1IDBaTTYgNEw0IDZaTS0xIDFMMSAtMVonIHN0cm9rZT0nIzg4OCcgc3Ryb2tlLXdpZHRoPScxJy8+Cjwvc3ZnPg==" x="0" y="0" width="5" height="5"> </image> </pattern> </defs></svg>
     
     <script src="js/d3.v6.min.js"></script>
     <script src="js/main.js"></script>

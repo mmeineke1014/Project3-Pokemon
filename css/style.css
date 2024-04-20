@@ -19,6 +19,22 @@
   font-size: large;
 }
 
+.character-button {
+  border-radius: 50%;
+  border: 4px solid #ff7e7e;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  margin-left: 2px;
+  margin-right: 2px;
+}
+
+img.circle {
+  object-fit: cover;
+  border-radius: 50%;
+  height: 115px;
+  width: 115px;
+}
+
 /* Tooltip */
 #tooltip {
   position: absolute;
