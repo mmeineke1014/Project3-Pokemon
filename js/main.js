@@ -6,9 +6,9 @@ d3.csv('data/pokemonDP.csv')
     const dataSets = generateDataSets(data);
 
     // Create and render the bar chart race
-    const chart = new BarChartRace("chart", { /* extended settings */ }) // Instantiate the BarChartRace class
-      .addDatasets(dataSets)
-      .render();
+    //const chart = new BarChartRace("chart", { /* extended settings */ }) // Instantiate the BarChartRace class
+    //  .addDatasets(dataSets)
+    //  .render();
 
     heatmapHeight = document.getElementById("heatmap_div").clientHeight;
     heatmapWidth = document.getElementById("heatmap_div").clientWidth;
