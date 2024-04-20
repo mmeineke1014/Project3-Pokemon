@@ -16,24 +16,26 @@
     </div>
 
     <div class="buttonsDiv" style="background-color: rgb(75, 72, 72);">
-        <button>CHARACTER 1</button>
-        <button>CHARACTER 2</button>
-        <button>CHARACTER 3</button>
-        <button>CHARACTER 4</button>
-        <button>CHARACTER 5</button>
-        <button>CHARACTER 6</button>
-        <button>CHARACTER 7</button>
-        <button>CHARACTER 8</button>
-        <button>CHARACTER 9</button>
-        <button>CHARACTER 10</button>
+        <button>ASH KETCHUM</button>
+        <button>PIKACHU</button>
+        <button>DAWN</button>
+        <button>BROCK</button>
+        <button>JESSIE</button>
+        <button>JAMES</button>
+        <button>MEOWTH</button>
+        <button>PAUL</button>
+        <button>ZOEY</button>
+        <button>BARRY</button>
     </div>
 
-    <div class="row" style="height: 48vh;">
-        <div class="column" style="background-color: cyan;">
+    <div class="row" style="height: 55vh;">
+        <div class="column" style="background-color: white;">
             <h3 id="characterName">[CHARACTER NAME]</h3>
-            <p id="appearences"><b>Episode Appearences:</b> TBD</p>
-            <p id="numLines"><b>Lines of Dialogue:</b> TBD</p>
-            <svg id="heatmap"></svg>
+            <p id="appearences"></p>
+            <p id="numLines"></p>
+            <div id="heatmap_div" style="height: 75%;">
+                <svg id="heatmap"></svg>
+            </div>
         </div>
 
         <div class="column" style="background-color: darkcyan;">
@@ -42,10 +44,12 @@
 
     </div>
 
+    <div id="tooltip"></div>
     
     <script src="js/d3.v6.min.js"></script>
     <script src="js/main.js"></script>
     <script src="js/BarChartRace.js"></script>
+    <script src="js/heatmap.js"></script>
 
 </body>
 </html>
