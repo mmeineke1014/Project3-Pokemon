@@ -6,9 +6,9 @@ d3.csv('data/pokemonDP.csv')
     const dataSets = generateDataSets(data);
 
     // Create and render the bar chart race
-    //const chart = new BarChartRace("chart", { /* extended settings */ }) // Instantiate the BarChartRace class
-    //  .addDatasets(dataSets)
-    //  .render();
+    const chart = new BarChartRace("chart", { /* extended settings */ }) // Instantiate the BarChartRace class
+      .addDatasets(dataSets)
+      .render();
 
     heatmapHeight = document.getElementById("heatmap_div").clientHeight;
     heatmapWidth = document.getElementById("heatmap_div").clientWidth;
@@ -25,6 +25,18 @@ d3.csv('data/pokemonDP.csv')
 
   addEventListener("resize", resizeVisualizations);
 
+  document.getElementById("ASH").addEventListener("click", onButtonClick);
+  document.getElementById("PIKACHU").addEventListener("click", onButtonClick);
+  document.getElementById("DAWN").addEventListener("click", onButtonClick);
+  document.getElementById("BROCK").addEventListener("click", onButtonClick);
+  document.getElementById("JESSIE").addEventListener("click", onButtonClick);
+  document.getElementById("JAMES").addEventListener("click", onButtonClick);
+  document.getElementById("MEOWTH").addEventListener("click", onButtonClick);
+  document.getElementById("PAUL").addEventListener("click", onButtonClick);
+  document.getElementById("ZOEY").addEventListener("click", onButtonClick);
+  document.getElementById("BARRY").addEventListener("click", onButtonClick);
+
+
   function resizeVisualizations(){
     console.log("RESIZE")
 
@@ -32,6 +44,20 @@ d3.csv('data/pokemonDP.csv')
     heatmap.config.containerWidth = document.getElementById("heatmap_div").clientWidth;
 
     heatmap.updateVis();
+  }
+
+  function onButtonClick(event){
+    //console.log(event);
+    var newCharacter = event.target.id
+    console.log(newCharacter);
+    
+    //update the character for the Heatmap
+    heatmap.character = newCharacter;
+    heatmap.updateVis();
+
+    //Update the character info
+    document.getElementById("characterName").innerHTML = event.target.alt;
+
   }
   
   function generateDataSets(data) {

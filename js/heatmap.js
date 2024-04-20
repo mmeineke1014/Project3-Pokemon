@@ -134,22 +134,26 @@ class Heatmap {
                 .attr("fill", (d) => {
                     var indexVal = d.charLines / d.totLines;
                     //console.log(d.season);
-
-                    if(Number(d.season) == 10){
-                        //console.log(vis.s10Scale(indexVal));
-                        return vis.s10Scale(indexVal);
-                    }
-                    else if(Number(d.season) == 11){
-                        //console.log(vis.s11Scale(indexVal));
-                        return vis.s11Scale(indexVal);
-                    }
-                    else if(Number(d.season) == 12){
-                        //console.log(vis.s12Scale(indexVal));
-                        return vis.s12Scale(indexVal);
+                    if(d.charLines == 0){
+                        return 'url(#lightstripe)';
                     }
                     else{
-                        //console.log(vis.s13Scale(indexVal));
-                        return vis.s13Scale(indexVal);
+                        if(Number(d.season) == 10){
+                            //console.log(vis.s10Scale(indexVal));
+                            return vis.s10Scale(indexVal);
+                        }
+                        else if(Number(d.season) == 11){
+                            //console.log(vis.s11Scale(indexVal));
+                            return vis.s11Scale(indexVal);
+                        }
+                        else if(Number(d.season) == 12){
+                            //console.log(vis.s12Scale(indexVal));
+                            return vis.s12Scale(indexVal);
+                        }
+                        else{
+                            //console.log(vis.s13Scale(indexVal));
+                            return vis.s13Scale(indexVal);
+                        }
                     }
                 })
                 .attr("width", vis.xScale.bandwidth())
@@ -171,7 +175,7 @@ class Heatmap {
                 <div class="tooltip-title">Season: ${d.season}, Episode: ${d.episode}</div>
                 <ul>
                     <li>Lines spoken by this character: ${d.charLines}</li>
-                    <li>Percentage of lines in episode: ${((d.charLines / d.totLines) * 100).toFixed(1)}</li>
+                    <li>Percentage of lines in episode: ${((d.charLines / d.totLines) * 100).toFixed(1)}%</li>
                 </ul>
             `);
         })
