@@ -52,7 +52,7 @@ class BarChartRace {
         .attr("class", "columns");
   
       // Append chart title
-      this.chartContainer.append("text")
+      this.svg.append("text")
         .attr("class", "chart-title")
         .attr("x", this.chartSettings.width / 2)
         .attr("y", this.chartSettings.padding / 2)
