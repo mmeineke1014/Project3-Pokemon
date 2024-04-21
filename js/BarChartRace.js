@@ -68,22 +68,37 @@ class BarChartRace {
         .text("Current Episode:");
     }
 
-  draw(data, transition) {
-    const { episode, dataSet } = data;
-    const { innerHeight, titlePadding } = this.chartSettings;
-
-    // Set title with current season and episode
-    const { season, episode: currentEpisode } = this.chartDataSets[this.currentDataSetIndex];
-    this.setTitle(`Season ${season}, Episode ${currentEpisode}`);
-
-    // Log the characters array
-    // Extract characters from dataSet
-    const characters = dataSet;
-
-    // Log the characters array to verify
-    console.log("Characters array:", characters);
-   this.xAxisScale.domain([0, d3.max(characters, d => d.value)]);
-   this.yAxisScale.domain(characters.map(d => d.name));
+    draw(data, transition) {
+      const { episode, dataSet } = data;
+      const { innerHeight, titlePadding } = this.chartSettings;
+  
+      // Set title with current season and episode
+      const { season, episode: currentEpisode } = this.chartDataSets[this.currentDataSetIndex];
+      this.setTitle(`Season ${season}, Episode ${currentEpisode}`);
+  
+      // Extract characters from dataSet
+      const characters = [];
+  
+      // Accumulate dialogue counts from all datasets up to the current episode index
+      for (let i = 0; i <= this.currentDataSetIndex; i++) {
+        const currentData = this.chartDataSets[i].dataSet;
+        currentData.forEach(({ name, value }) => {
+          const existingCharacterIndex = characters.findIndex(char => char.name === name);
+          if (existingCharacterIndex !== -1) {
+            characters[existingCharacterIndex].value += value;
+          } else {
+            characters.push({ name, value });
+          }
+        });
+      }
+  
+      // Sort characters based on their accumulated dialogue counts
+      characters.sort((a, b) => b.value - a.value);
+  
+      // Update scales based on the accumulated dialogue counts
+      this.xAxisScale.domain([0, d3.max(characters, d => d.value)]);
+      this.yAxisScale.domain(characters.map(d => d.name));
+  
 
     const barGroups = this.chartContainer
       .select(".columns")
