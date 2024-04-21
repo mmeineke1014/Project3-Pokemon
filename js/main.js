@@ -93,7 +93,7 @@ d3.csv('data/pokemonDP.csv')
                     // Filter characters to include only specified names (case-insensitive)
                     const filteredCharacters = new Map(
                         Array.from(characters).filter(([characterName]) =>
-                            ["ash", "dawn", "brock", "jessie", "james", "meowth", "paul", "zoe", "barry", "pikachu"].includes(characterName.toLowerCase()))
+                            ["ash", "dawn", "brock", "jessie", "james", "meowth", "paul", "zoey", "barry", "pikachu"].includes(characterName.toLowerCase()))
                     );
 
                     return {
