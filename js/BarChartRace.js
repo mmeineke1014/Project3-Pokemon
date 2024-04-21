@@ -54,19 +54,19 @@ class BarChartRace {
       // Append chart title
       this.svg.append("text")
         .attr("class", "chart-title")
-        .attr("x", this.chartSettings.width / 2)
-        .attr("y", this.chartSettings.padding / 2)
-        .attr("text-anchor", "middle")
+        .attr("x", this.chartSettings.padding)
+        .attr("y", this.chartSettings.padding)
+        .attr("text-anchor", "start") // Align to the start of the text (left)
         .text("Pokemon DP Bar Chart Race");
   
-      // Append current date text
-      this.chartContainer.append("text")
+     // Append current date text to the SVG element
+      this.svg.append("text")
         .attr("class", "current-date")
-        .attr("x", this.chartSettings.innerWidth)
-        .attr("y", this.chartSettings.innerHeight)
-        .attr("text-anchor", "end")
+        .attr("x", this.chartSettings.width - this.chartSettings.padding)
+        .attr("y", this.chartSettings.padding)
+        .attr("text-anchor", "end") // Align to the end of the text (right)
         .text("Current Episode:");
-  }
+    }
 
   draw(data, transition) {
     const { episode, dataSet } = data;
@@ -202,24 +202,18 @@ class BarChartRace {
   }
 
   setTitle(title) {
-    const svgWidth = this.chartSettings.width;
-    const svgHeight = this.chartSettings.height;
-
-    // Calculate the position of the title
-    const titleX = svgWidth / 2;
-    const titleY = this.chartSettings.padding / 2; // Adjust this value as needed
-
+    // Update the title position
     d3.select(".chart-title")
-        .attr("x", titleX)
-        .attr("y", titleY)
-        .text("Pokemon DP Bar Chart Race");
-    
-    // Update the "current-date" text to display season and episode
+        .attr("x", this.chartSettings.padding)
+        .attr("y", this.chartSettings.padding)
+        .attr("text-anchor", "start") // Align to the start of the text (left)
+
+    // Update the "Current Episode" text position
     d3.select(".current-date")
-    .attr("x", this.chartSettings.innerWidth)
-    .attr("y", this.chartSettings.innerHeight)
-    .attr("text-anchor", "end")
-    .text(title);
+        .attr("x", this.chartSettings.width - this.chartSettings.padding)
+        .attr("y", this.chartSettings.padding)
+        .attr("text-anchor", "end") // Align to the end of the text (right)
+        .text(title);
 
     return this;
 }
