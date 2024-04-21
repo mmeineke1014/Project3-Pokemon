@@ -28,9 +28,6 @@ d3.csv('data/pokemonDP.csv')
         d => d.episode
     );
 
-    // Initialize total dialogue line count
-    let totalLines = 0;
-
     // Convert grouped data into an array of objects
     const allSeasons = Array.from(groupedData)
         .sort((a, b) => a[0] - b[0]) // Sort seasons numerically
@@ -45,11 +42,17 @@ d3.csv('data/pokemonDP.csv')
                     // Increment total dialogue line count for the season
                     seasonTotalLines += totalCount;
 
+                    // Filter characters to include only specified names (case-insensitive)
+                    const filteredCharacters = new Map(
+                        Array.from(characters).filter(([characterName]) =>
+                            ["ash", "dawn", "brock", "jessie", "james", "meowth", "paul", "zoe", "barry", "pikachu"].includes(characterName.toLowerCase()))
+                    );
+
                     return {
                         season: season,
                         episode: episode,
                         totalCount: seasonTotalLines, // Total dialogue line count up to this episode in the season
-                        dataSet: Array.from(characters, ([character, count]) => ({
+                        dataSet: Array.from(filteredCharacters, ([character, count]) => ({
                             name: character,
                             value: count // Count represents the dialogue line count for this character in this episode
                         }))
@@ -65,10 +68,8 @@ d3.csv('data/pokemonDP.csv')
     // Combine all seasons into one big overarching dataset
     const allEpisodes = allSeasons.reduce((acc, season) => acc.concat(season.episodes), []);
 
-    // Calculate total dialogue line count for all episodes
-    const totalLinesAllEpisodes = allEpisodes.reduce((acc, episode) => acc + episode.totalCount, 0);
-
     // Log the total dialogue line count for all episodes
+    const totalLinesAllEpisodes = allEpisodes.reduce((acc, episode) => acc + episode.totalCount, 0);
     console.log("Total dialogue line count for all episodes:", totalLinesAllEpisodes);
 
     console.log(allEpisodes);
