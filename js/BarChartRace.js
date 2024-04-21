@@ -102,19 +102,17 @@ class BarChartRace {
       .attr("width", 0)
       .attr("height", this.yAxisScale.step() * (1 - this.chartSettings.columnPadding));
 
+    // Append text for column titles
     barGroupsEnter
-      .append("text")
-      .attr("class", "column-title")
-      .attr("y", (this.yAxisScale.step() * (1 - this.chartSettings.columnPadding)) / 2)
-      .attr("x", -titlePadding)
-      .text(({ name }) => name);
-
-    barGroupsEnter
-      .append("text")
-      .attr("class", "column-value")
-      .attr("y", (this.yAxisScale.step() * (1 - this.chartSettings.columnPadding)) / 2)
-      .attr("x", titlePadding)
-      .text(0);
+    .append("text")
+    .attr("class", "column-title")
+    .attr("y", (this.yAxisScale.step() * (1 - this.chartSettings.columnPadding)) / 2)
+    .attr("x", d => Math.max(this.xAxisScale(d.value), 2 * titlePadding)) // Move the label alongside the bars with a fixed padding, ensuring it's not positioned too far off
+    .attr("dx", 10) // Add some additional padding to separate the labels from the bars
+    .attr("dy", "0.35em") // Adjust vertical alignment if needed
+    .style("font-size", "12px") // Adjust font size as needed
+    .style("text-anchor", "start") // Set text-anchor to start
+    .text(({ name }) => name);
 
     const barUpdate = barGroupsEnter.merge(barGroups);
 
