@@ -291,7 +291,6 @@ class BarChartRace {
           this.render(index + 1);
         } else {
           console.log("All episodes rendered.");
-          d3.select("button").text("Play");
         }
       })
       .on("interrupt", () => {
