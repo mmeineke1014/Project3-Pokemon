@@ -9,7 +9,7 @@ class BarChartRace {
       titlePadding: 5,
       columnPadding: 0.4,
       ticksInXAxis: 5,
-      duration: 1800,
+      duration: 1500,
       ...extendedSettings
     };
     this.containerId = "bar-chart-container";
