@@ -62,19 +62,18 @@ function generateDataTable(data) {
 
   // Apply CSS to position the container within the bar chart container
   const barChartContainer = document.getElementById('bar-chart-container');
-  const offsetLeft = barChartContainer.getBoundingClientRect().left;
-  const offsetTop = barChartContainer.getBoundingClientRect().top;
-  container.style.position = 'absolute';
-  container.style.top = offsetTop + 'px';
-  container.style.right = offsetLeft + 'px';
-  container.style.padding = '20px'; // Optional: Add padding for spacing
-  container.style.maxWidth = '600px'; // Limit the container width to 500 pixels
-  container.style.height = '460px'; // Set a fixed height for the container
-  container.style.maxHeight = '460px'; // Limit the container height to 600 pixels
+  container.style.position = 'relative';
+  container.style.float = 'right';
+  container.style.padding = '10px';
+  container.style.maxWidth = '500px'; // Limit the container width to 500 pixels
+  container.style.height = '350px'; // Set a fixed height for the container
+  container.style.maxHeight = '350px'; // Limit the container height to 600 pixels
   container.style.overflow = 'auto'; // Add vertical scrollbar when content exceeds the height
 
   // Append the table to the container
   container.appendChild(table);
+
+  barChartContainer.appendChild(container)
 
   return container;
 }
