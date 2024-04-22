@@ -27,8 +27,13 @@ function generateDataTable(data) {
   headerCell1.textContent = 'Character';
   headerRow.appendChild(headerCell1);
   const headerCell2 = document.createElement('th');
-  headerCell2.textContent = 'Cumulative Total';
+  headerCell2.textContent = 'Cumulative Total Lines';
   headerRow.appendChild(headerCell2);
+
+  headerCell1.style.backgroundColor = '#f2f2f2'; // Light gray background color for header cell 1
+  headerCell2.style.backgroundColor = '#f2f2f2'; // Light gray background color for header cell 2
+  headerCell1.style.border = '1px solid black';
+  headerCell2.style.border = '1px solid black';
 
   // Create the table body
   const body = table.createTBody();
@@ -41,9 +46,15 @@ function generateDataTable(data) {
 
       // Apply alternating row shading to table cells
       if (index % 2 === 0) {
-          cell1.style.backgroundColor = '#f2f2f2'; // Light gray background color
-          cell2.style.backgroundColor = '#f2f2f2'; // Light gray background color
+        cell1.style.backgroundColor = '#f5f5f5'; // Lighter gray background color
+        cell2.style.backgroundColor = '#f5f5f5'; // Lighter gray background color
+      } else {
+          cell1.style.backgroundColor = '#d8d8d8'; // Slightly darker gray background color
+          cell2.style.backgroundColor = '#d8d8d8'; // Slightly darker gray background color
       }
+      // Add border to table cells
+      cell1.style.border = '1px solid black';
+      cell2.style.border = '1px solid black';
   });
 
   // Create a container div to hold the table
@@ -57,7 +68,7 @@ function generateDataTable(data) {
   container.style.top = offsetTop + 'px';
   container.style.right = offsetLeft + 'px';
   container.style.padding = '20px'; // Optional: Add padding for spacing
-  container.style.maxWidth = '500px'; // Limit the container width to 500 pixels
+  container.style.maxWidth = '600px'; // Limit the container width to 500 pixels
   container.style.height = '460px'; // Set a fixed height for the container
   container.style.maxHeight = '460px'; // Limit the container height to 600 pixels
   container.style.overflow = 'auto'; // Add vertical scrollbar when content exceeds the height

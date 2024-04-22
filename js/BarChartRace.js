@@ -1,7 +1,7 @@
 class BarChartRace {
   constructor(chartId, extendedSettings) {
     this.chartSettings = {
-      width: 600,
+      width: 700,
       height: 500,
       padding: 40,
       titlePadding: 5,
@@ -70,47 +70,82 @@ class BarChartRace {
       this.svg.append("text")
         .attr("class", "chart-title")
         .attr("x", this.chartSettings.padding)
-        .attr("y", this.chartSettings.padding)
+        .attr("y", this.chartSettings.padding - 15)
         .attr("text-anchor", "start") // Align to the start of the text (left)
+        .style("font-weight", "bold") // Make the text bold
         .text("Pokemon DP Bar Chart Race");
   
      // Append current date text to the SVG element
       this.svg.append("text")
         .attr("class", "current-date")
         .attr("x", this.chartSettings.width - this.chartSettings.padding)
-        .attr("y", this.chartSettings.padding)
+        .attr("y", this.chartSettings.padding - 15)
         .attr("text-anchor", "end") // Align to the end of the text (right)
+        .style("font-weight", "bold") // Make the text bold
         .text("Current Episode:");
 
           // Append stop button to the SVG
-        this.svg.append("text")
+          this.svg.append("rect")
+          .attr("class", "control-button-background")
+          .attr("x", this.chartSettings.padding - 5)
+          .attr("y", this.chartSettings.height - 25)
+          .attr("width", 45)
+          .attr("height", 25)
+          .style("fill", "white") // Set background color to white
+          .style("stroke", "black") // Set border color to black
+          .style("stroke-width", "1px"); // Set border width
+
+          this.svg.append("text")
           .attr("class", "control-button")
           .attr("x", this.chartSettings.padding)
-          .attr("y", this.chartSettings.height-10)
+          .attr("y", this.chartSettings.height - 10)
           .attr("text-anchor", "start")
           .style("cursor", "pointer")
+          .style("fill", "black") // Set text color to black
           .text("Stop")
           .on("click", () => this.stop());
 
-        // Append play button to the SVG
-        this.svg.append("text")
+          // Append play button to the SVG
+          this.svg.append("rect")
+          .attr("class", "control-button-background")
+          .attr("x", this.chartSettings.padding + 45)
+          .attr("y", this.chartSettings.height - 25)
+          .attr("width", 45)
+          .attr("height", 25)
+          .style("fill", "white") // Set background color to white
+          .style("stroke", "black") // Set border color to black
+          .style("stroke-width", "1px"); // Set border width
+
+          this.svg.append("text")
           .attr("class", "control-button")
           .attr("x", this.chartSettings.padding + 50)
-          .attr("y", this.chartSettings.height-10)
+          .attr("y", this.chartSettings.height - 10)
           .attr("text-anchor", "start")
           .style("cursor", "pointer")
+          .style("fill", "black") // Set text color to black
           .text("Play")
           .on("click", () => this.start());
-          
-        // Append replay button to the SVG
-        this.svg.append("text")
-        .attr("class", "control-button")
-        .attr("x", this.chartSettings.padding + 100)
-        .attr("y", this.chartSettings.height-10)
-        .attr("text-anchor", "start")
-        .style("cursor", "pointer")
-        .text("Replay")
-        .on("click", () => this.replay());
+
+          // Append replay button to the SVG
+          this.svg.append("rect")
+          .attr("class", "control-button-background")
+          .attr("x", this.chartSettings.padding + 95)
+          .attr("y", this.chartSettings.height - 25)
+          .attr("width", 60)
+          .attr("height", 25)
+          .style("fill", "white") // Set background color to white
+          .style("stroke", "black") // Set border color to black
+          .style("stroke-width", "1px"); // Set border width
+
+          this.svg.append("text")
+          .attr("class", "control-button")
+          .attr("x", this.chartSettings.padding + 100)
+          .attr("y", this.chartSettings.height - 10)
+          .attr("text-anchor", "start")
+          .style("cursor", "pointer")
+          .style("fill", "black") // Set text color to black
+          .text("Replay")
+          .on("click", () => this.replay());
     }
 
     draw(data, transition) {
@@ -272,14 +307,16 @@ class BarChartRace {
     // Update the title position
     d3.select(".chart-title")
         .attr("x", this.chartSettings.padding)
-        .attr("y", this.chartSettings.padding)
+        .attr("y", this.chartSettings.padding - 15)
+        .style("font-weight", "bold") // Make the text bold
         .attr("text-anchor", "start") // Align to the start of the text (left)
 
     // Update the "Current Episode" text position
     d3.select(".current-date")
         .attr("x", this.chartSettings.width - this.chartSettings.padding)
-        .attr("y", this.chartSettings.padding)
+        .attr("y", this.chartSettings.padding - 15)
         .attr("text-anchor", "end") // Align to the end of the text (right)
+        .style("font-weight", "bold") // Make the text bold
         .text(title);
 
     return this;
