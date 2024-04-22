@@ -13,6 +13,10 @@ function generateDataTable(data) {
       characterTotals[character] = (characterTotals[character] || 0) + 1;
   });
 
+  // Sort characters by cumulative total in descending order
+  const sortedCharacters = Object.entries(characterTotals)
+      .sort(([, totalA], [, totalB]) => totalB - totalA);
+
   // Create a table element
   const table = document.createElement('table');
 
@@ -28,36 +32,40 @@ function generateDataTable(data) {
 
   // Create the table body
   const body = table.createTBody();
-  Object.entries(characterTotals).forEach(([character, total], index) => {
+  sortedCharacters.forEach(([character, total], index) => {
       const row = body.insertRow();
       const cell1 = row.insertCell();
       cell1.textContent = character;
       const cell2 = row.insertCell();
       cell2.textContent = total;
 
-      // Apply alternating row shading
+      // Apply alternating row shading to table cells
       if (index % 2 === 0) {
-          row.style.backgroundColor = '#f2f2f2'; // Light gray background color
+          cell1.style.backgroundColor = '#f2f2f2'; // Light gray background color
+          cell2.style.backgroundColor = '#f2f2f2'; // Light gray background color
       }
   });
 
-  // Get the bar chart container element
-  const barChartContainer = document.getElementById('bar-chart-container');
+  // Create a container div to hold the table
+  const container = document.createElement('div');
 
-  // Calculate the offset of the bar chart container
+  // Apply CSS to position the container within the bar chart container
+  const barChartContainer = document.getElementById('bar-chart-container');
   const offsetLeft = barChartContainer.getBoundingClientRect().left;
   const offsetTop = barChartContainer.getBoundingClientRect().top;
+  container.style.position = 'absolute';
+  container.style.top = offsetTop + 'px';
+  container.style.right = offsetLeft + 'px';
+  container.style.padding = '20px'; // Optional: Add padding for spacing
+  container.style.maxWidth = '500px'; // Limit the container width to 500 pixels
+  container.style.height = '460px'; // Set a fixed height for the container
+  container.style.maxHeight = '460px'; // Limit the container height to 600 pixels
+  container.style.overflow = 'auto'; // Add vertical scrollbar when content exceeds the height
 
-  // Apply CSS to position the table within the bar chart container
-  table.style.position = 'absolute';
-  table.style.top = offsetTop + 'px';
-  table.style.right = offsetLeft + 'px';
-  table.style.padding = '20px'; // Optional: Add padding for spacing
-  table.style.maxWidth = '500px'; // Limit the table width to 500 pixels
-  table.style.maxHeight = '600px'; // Limit the table width to 500 pixels
-  table.style.overflow = 'auto'; // Add scrollbar when content exceeds the height
+  // Append the table to the container
+  container.appendChild(table);
 
-  return table;
+  return container;
 }
 
 d3.csv('data/pokemonDP.csv')
