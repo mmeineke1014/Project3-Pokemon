@@ -1,5 +1,37 @@
 let heatmap
 
+document.addEventListener('DOMContentLoaded', function() {
+  // Variable to track the music state
+  let isMusicOn = false;
+
+  // Get the button element
+  const toggleMusicButton = document.getElementById('toggleMusicButton');
+
+  // Get the audio element
+  const backgroundAudio = document.getElementById('backgroundAudio');
+
+  // Function to toggle music state and update button text
+  function toggleMusic() {
+    if (isMusicOn) {
+      // Pause the audio
+      backgroundAudio.pause();
+      // Update button text
+      toggleMusicButton.textContent = 'Music Off';
+    } else {
+      // Play the audio
+      backgroundAudio.play();
+      // Update button text
+      toggleMusicButton.textContent = 'Music On';
+    }
+    // Toggle music state
+    isMusicOn = !isMusicOn;
+     // Update button text based on music state
+     toggleMusicButton.textContent = isMusicOn ? 'Music On' : 'Music Off';
+  }
+
+  // Add click event listener to the button
+  toggleMusicButton.addEventListener('click', toggleMusic);
+});
 
 function generateDataTable(data) {
   // Initialize an object to store cumulative totals for each character
@@ -64,8 +96,8 @@ function generateDataTable(data) {
   const barChartContainer = document.getElementById('bar-chart-container');
   container.style.position = 'relative';
   container.style.float = 'right';
-  container.style.padding = '10px';
-  container.style.maxWidth = '500px'; // Limit the container width to 500 pixels
+  container.style.padding = '5px';
+  container.style.maxWidth = '450px'; // Limit the container width to 500 pixels
   container.style.height = '350px'; // Set a fixed height for the container
   container.style.maxHeight = '350px'; // Limit the container height to 600 pixels
   container.style.overflow = 'auto'; // Add vertical scrollbar when content exceeds the height
