@@ -23,6 +23,7 @@ class BarChartRace {
     this.timerEnd;
     this.currentDataSetIndex = 0;
     this.elapsedTime = this.chartSettings.duration;
+    this.isPlaying = true; // Initialize isPlaying flag
     this.xAxisScale = d3.scaleLinear().range([0, this.chartSettings.innerWidth]);
     this.yAxisScale = d3.scaleBand().range([this.chartSettings.innerHeight, 0]).padding(0.1);
     this.colorScale = d3.scaleOrdinal()
@@ -163,18 +164,16 @@ class BarChartRace {
   
       // Accumulate dialogue counts from all datasets up to the current episode index
       for (let i = 0; i <= this.currentDataSetIndex; i++) {
-        const currentData = this.chartDataSets[i].dataSet;
-        currentData.forEach(({ name, value }) => {
-          const existingCharacterIndex = characters.findIndex(char => char.name === name);
-          if (existingCharacterIndex !== -1) {
-            characters[existingCharacterIndex].value += value;
-          } else {
-            characters.push({ name, value });
-          }
-        });
+          const currentData = this.chartDataSets[i].dataSet;
+          currentData.forEach(({ name, value }) => {
+              const existingCharacterIndex = characters.findIndex(char => char.name === name);
+              if (existingCharacterIndex !== -1) {
+                  characters[existingCharacterIndex].value += value;
+              } else {
+                  characters.push({ name, value });
+              }
+          });
       }
-
-      
   
       // Sort characters based on their accumulated dialogue counts
       characters.sort((a, b) => b.value - a.value);
@@ -183,111 +182,122 @@ class BarChartRace {
       this.xAxisScale.domain([0, d3.max(characters, d => d.value)]);
       this.yAxisScale.domain(characters.map(d => d.name));
   
-
-    const barGroups = this.chartContainer
-      .select(".columns")
-      .selectAll("g.column-container")
-      .data(characters, d => d.name);
-
-    const barGroupsEnter = barGroups
-      .enter()
-      .append("g")
-      .attr("class", "column-container")
-      .attr("transform", `translate(0,${innerHeight})`);
-
-    barGroupsEnter
-      .append("rect")
-      .attr("class", "column-rect")
-      .attr("width", 0)
-      .attr("height", this.yAxisScale.step() * (1 - this.chartSettings.columnPadding));
-
-    // Append text for column titles
-    barGroupsEnter
-    .append("text")
-    .attr("class", "column-title")
-    .attr("y", (this.yAxisScale.step() * (1 - this.chartSettings.columnPadding)) / 2)
-    .attr("x", d => Math.max(this.xAxisScale(d.value), 2 * titlePadding)) // Move the label alongside the bars with a fixed padding, ensuring it's not positioned too far off
-    .attr("dx", 10) // Add some additional padding to separate the labels from the bars
-    .attr("dy", "0.35em") // Adjust vertical alignment if needed
-    .style("font-size", "12px") // Adjust font size as needed
-    .style("text-anchor", "start") // Set text-anchor to start
-    .text(({ name }) => name);
-
-    const barUpdate = barGroupsEnter.merge(barGroups);
-
-    barUpdate
-      .transition(transition)
-      .attr("transform", ({ name }) => `translate(0,${this.yAxisScale(name)})`)
-      .attr("fill", "normal");
-    
-    // Update fill color of the bars based on character's name
-    barUpdate.select(".column-rect")
-      .transition(transition)
-      .attr("fill", d => this.colorScale(d.name));
-
-    barUpdate
-      .select(".column-rect")
-      .transition(transition)
-      .attr("width", ({ value }) => this.xAxisScale(value));
-
-    barUpdate
-      .select(".column-title")
-      .transition(transition)
-      .attr("x", ({ value }) => this.xAxisScale(value) - titlePadding);
-
-    barUpdate
-      .select(".column-value")
-      .transition(transition)
-      .attr("x", ({ value }) => this.xAxisScale(value) + titlePadding)
-      .tween("text", ({ value }) => {
-        const interpolateStartValue =
-          this.elapsedTime === this.chartSettings.duration
-            ? this.currentValue || 0
-            : +this.innerHTML;
-    
-        const interpolate = d3.interpolate(interpolateStartValue, value);
-        this.currentValue = value;
-    
-        return (t) => {
-          d3.select(this).text(Math.ceil(interpolate(t)));
-        };
-      });
-
-    const bodyExit = barGroups.exit();
-
-    bodyExit
-      .transition(transition)
-      .attr("transform", `translate(0,${innerHeight})`)
-      .on("end", function() {
-        d3.select(this).attr("fill", "none");
-      });
-
-    bodyExit
-      .select(".column-title")
-      .transition(transition)
-      .attr("x", 0);
-
-    bodyExit
-      .select(".column-rect")
-      .transition(transition)
-      .attr("width", 0);
-
-    bodyExit
-      .select(".column-value")
-      .transition(transition)
-      .attr("x", titlePadding)
-      .tween("text", function() {
-        const interpolate = d3.interpolate(this.currentValue, 0);
-        this.currentValue = 0;
-
-        return function(t) {
-          d3.select(this).text(Math.ceil(interpolate(t)));
-        };
-      });
-
-    return this;
+      const barGroups = this.chartContainer
+          .select(".columns")
+          .selectAll("g.column-container")
+          .data(characters, d => d.name);
+  
+      const barGroupsEnter = barGroups
+          .enter()
+          .append("g")
+          .attr("class", "column-container")
+          .attr("transform", `translate(0,${innerHeight})`);
+  
+      barGroupsEnter
+          .append("rect")
+          .attr("class", "column-rect")
+          .attr("width", 0)
+          .attr("height", this.yAxisScale.step() * (1 - this.chartSettings.columnPadding));
+  
+      // Append text for column titles
+      barGroupsEnter
+          .append("text")
+          .attr("class", "column-title")
+          .attr("y", (this.yAxisScale.step() * (1 - this.chartSettings.columnPadding)) / 2)
+          .attr("x", d => Math.max(this.xAxisScale(d.value), 2 * titlePadding)) // Move the label alongside the bars with a fixed padding, ensuring it's not positioned too far off
+          .attr("dx", 10) // Add some additional padding to separate the labels from the bars
+          .attr("dy", "0.35em") // Adjust vertical alignment if needed
+          .style("font-size", "12px") // Adjust font size as needed
+          .style("text-anchor", "start") // Set text-anchor to start
+          .text(({ name }) => name);
+  
+      const barUpdate = barGroupsEnter.merge(barGroups);
+      // Define bodyExit
+      const bodyExit = barGroups.exit();
+  
+      if (this.isPlaying) {
+          // Apply transition to elements
+          barUpdate.transition(transition)
+              .attr("transform", ({ name }) => `translate(0,${this.yAxisScale(name)})`)
+              .attr("fill", "normal");
+  
+          barUpdate.select(".column-rect").transition(transition)
+              .attr("fill", d => this.colorScale(d.name))
+              .attr("width", ({ value }) => this.xAxisScale(value));
+  
+          barUpdate.select(".column-title").transition(transition)
+              .attr("x", ({ value }) => this.xAxisScale(value) - titlePadding);
+  
+          // Add transition to text updates
+          barUpdate.select(".column-value").transition(transition)
+              .attr("x", ({ value }) => this.xAxisScale(value) + titlePadding)
+              .tween("text", ({ value }) => {
+                  const interpolateStartValue =
+                      this.elapsedTime === this.chartSettings.duration
+                          ? this.currentValue || 0
+                          : +this.innerHTML;
+  
+                  const interpolate = d3.interpolate(interpolateStartValue, value);
+                  this.currentValue = value;
+  
+                  return (t) => {
+                      d3.select(this).text(Math.ceil(interpolate(t)));
+                  };
+              });
+  
+          // Apply exit transition
+          bodyExit.transition(transition)
+              .attr("transform", `translate(0,${innerHeight})`)
+              .on("end", function () {
+                  d3.select(this).attr("fill", "none");
+              });
+  
+          // Apply exit transition to children elements
+          bodyExit.select(".column-title").transition(transition).attr("x", 0);
+  
+          bodyExit.select(".column-rect").transition(transition).attr("width", 0);
+  
+          bodyExit.select(".column-value").transition(transition)
+              .attr("x", titlePadding)
+              .tween("text", function () {
+                  const interpolate = d3.interpolate(this.currentValue, 0);
+                  this.currentValue = 0;
+  
+                  return function (t) {
+                      d3.select(this).text(Math.ceil(interpolate(t)));
+                  };
+              });
+      } else {
+          // If isPlaying is false, update elements without transition
+          barUpdate.attr("transform", ({ name }) => `translate(0,${this.yAxisScale(name)})`)
+              .attr("fill", "normal");
+  
+          barUpdate.select(".column-rect")
+              .attr("fill", d => this.colorScale(d.name))
+              .attr("width", ({ value }) => this.xAxisScale(value));
+  
+          barUpdate.select(".column-title")
+              .attr("x", ({ value }) => this.xAxisScale(value) - titlePadding);
+  
+          barUpdate.select(".column-value")
+              .attr("x", ({ value }) => this.xAxisScale(value) + titlePadding)
+              .text(({ value }) => Math.ceil(value));
+  
+          // Apply exit transition without transition
+          bodyExit.attr("transform", `translate(0,${innerHeight})`)
+              .on("end", function () {
+                  d3.select(this).attr("fill", "none");
+              });
+  
+          bodyExit.select(".column-title").attr("x", 0);
+  
+          bodyExit.select(".column-rect").attr("width", 0);
+  
+          bodyExit.select(".column-value").attr("x", titlePadding).text(0);
+      }
+  
+      return this;
   }
-
   addDataset(dataSet) {
     this.chartDataSets.push(dataSet);
 
@@ -329,35 +339,38 @@ class BarChartRace {
     console.log("Rendering chart for episode:", index);
     this.currentDataSetIndex = index;
     this.timerStart = d3.now();
-  
+
     // Log the data passed to the draw function
     console.log("Data for rendering:", this.chartDataSets[index]);
-  
-    this.chartTransition = this.chartContainer
-      .transition()
-      .duration(this.elapsedTime)
-      .ease(d3.easeLinear)
-      .on("end", () => {
-        if (index < this.chartDataSets.length) {
-          console.log("Transition ended, rendering next episode...");
-          this.elapsedTime = this.chartSettings.duration;
-          // Render the next episode
-          this.render(index + 1);
-        } else {
-          console.log("All episodes rendered.");
-        }
-      })
-      .on("interrupt", () => {
-        console.log("Transition interrupted.");
-        this.timerEnd = d3.now();
-      });
-  
+
+    // Create transition only if isPlaying is true
+    if (this.isPlaying) {
+        this.chartTransition = this.chartContainer
+            .transition()
+            .duration(this.elapsedTime)
+            .ease(d3.easeLinear)
+            .on("end", () => {
+                if (index < this.chartDataSets.length) {
+                    console.log("Transition ended, rendering next episode...");
+                    this.elapsedTime = this.chartSettings.duration;
+                    // Render the next episode
+                    this.render(index + 1);
+                } else {
+                    console.log("All episodes rendered.");
+                }
+            })
+            .on("interrupt", () => {
+                console.log("Transition interrupted.");
+                this.timerEnd = d3.now();
+            });
+    }
+
     // Draw the chart for the current episode
     if (index < this.chartDataSets.length) {
-      console.log("Drawing chart for current episode...");
-      this.draw(this.chartDataSets[index], this.chartTransition);
+        console.log("Drawing chart for current episode...");
+        this.draw(this.chartDataSets[index], this.chartTransition);
     }
-  
+
     return this;
   }
 
@@ -381,15 +394,30 @@ class BarChartRace {
   }
 
   stop() {
+    // Set isPlaying flag to false
+    this.isPlaying = false;
     this.chartContainer.selectAll("*").interrupt();
     return this;
   }
 
   start() {
-    this.elapsedTime -= this.timerEnd - this.timerStart;
+    // Set isPlaying flag to true
+    this.isPlaying = true;
 
-    this.render(this.currentDataSetIndex);
+    // If the timerStart is not yet initialized or if the timerEnd is already initialized, start rendering from the current episode index
+    if (!this.timerStart || this.timerEnd) {
+        // Start the timer
+        this.timerStart = d3.now();
+        this.render(this.currentDataSetIndex);
+    } else {
+        // If the timer is paused, resume rendering from the current episode index
+        // Subtract the paused time from the elapsed time
+        this.elapsedTime -= this.timerEnd - this.timerStart;
+
+        // Start rendering from the current episode
+        this.render(this.currentDataSetIndex);
+    }
 
     return this;
-  }
+}
 }
