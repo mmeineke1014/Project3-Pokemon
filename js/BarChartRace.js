@@ -2,12 +2,12 @@ class BarChartRace {
   constructor(chartId, extendedSettings) {
     this.chartSettings = {
       width: 500,
-      height: 400,
+      height: 500,
       padding: 40,
       titlePadding: 5,
       columnPadding: 0.4,
       ticksInXAxis: 5,
-      duration: 3500,
+      duration: 1800,
       ...extendedSettings
     };
     this.containerId = "bar-chart-container";
@@ -97,6 +97,16 @@ class BarChartRace {
           .style("cursor", "pointer")
           .text("Play")
           .on("click", () => this.start());
+          
+        // Append replay button to the SVG
+        this.svg.append("text")
+        .attr("class", "control-button")
+        .attr("x", this.chartSettings.padding + 100)
+        .attr("y", this.chartSettings.height-10)
+        .attr("text-anchor", "start")
+        .style("cursor", "pointer")
+        .text("Replay")
+        .on("click", () => this.replay());
     }
 
     draw(data, transition) {
@@ -303,6 +313,25 @@ class BarChartRace {
       console.log("Drawing chart for current episode...");
       this.draw(this.chartDataSets[index], this.chartTransition);
     }
+  
+    return this;
+  }
+
+  replay() {
+    // Reset the elapsed time to the start time
+    this.elapsedTime = 0;
+  
+    // Clear the existing chart elements
+    this.chartContainer.selectAll(".column-container").remove();
+  
+    // Reset the current data set index to 0
+    this.currentDataSetIndex = 0;
+  
+    // Set the title back to the first episode
+    this.setTitle(`Season ${this.chartDataSets[0].season}, Episode ${this.chartDataSets[0].episode}`);
+  
+    // Start rendering from the beginning
+    this.render();
   
     return this;
   }
