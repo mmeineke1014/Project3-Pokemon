@@ -23,7 +23,18 @@ class BarChartRace {
     this.elapsedTime = this.chartSettings.duration;
     this.xAxisScale = d3.scaleLinear().range([0, this.chartSettings.innerWidth]);
     this.yAxisScale = d3.scaleBand().range([this.chartSettings.innerHeight, 0]).padding(0.1);
-   
+    this.colorScale = d3.scaleOrdinal()
+    .domain([
+      "Meowth", "Pikachu", "Brock", "Ash", 
+      "Jessie", "James", "Dawn", "Paul", "Zoey", 
+      "Barry"
+      
+    ])
+    .range([
+      "magenta", "beige", "red", "purple", 
+      "blue", "yellow", "brown", "black", "orange", 
+      "green"
+    ]);
 
     // Append SVG element to the container
     console.log(`#${this.containerId}`)
@@ -66,6 +77,26 @@ class BarChartRace {
         .attr("y", this.chartSettings.padding)
         .attr("text-anchor", "end") // Align to the end of the text (right)
         .text("Current Episode:");
+
+          // Append stop button to the SVG
+        this.svg.append("text")
+          .attr("class", "control-button")
+          .attr("x", this.chartSettings.padding)
+          .attr("y", this.chartSettings.height-10)
+          .attr("text-anchor", "start")
+          .style("cursor", "pointer")
+          .text("Stop")
+          .on("click", () => this.stop());
+
+        // Append play button to the SVG
+        this.svg.append("text")
+          .attr("class", "control-button")
+          .attr("x", this.chartSettings.padding + 50)
+          .attr("y", this.chartSettings.height-10)
+          .attr("text-anchor", "start")
+          .style("cursor", "pointer")
+          .text("Play")
+          .on("click", () => this.start());
     }
 
     draw(data, transition) {
@@ -91,6 +122,8 @@ class BarChartRace {
           }
         });
       }
+
+      
   
       // Sort characters based on their accumulated dialogue counts
       characters.sort((a, b) => b.value - a.value);
@@ -135,6 +168,11 @@ class BarChartRace {
       .transition(transition)
       .attr("transform", ({ name }) => `translate(0,${this.yAxisScale(name)})`)
       .attr("fill", "normal");
+    
+    // Update fill color of the bars based on character's name
+    barUpdate.select(".column-rect")
+      .transition(transition)
+      .attr("fill", d => this.colorScale(d.name));
 
     barUpdate
       .select(".column-rect")
@@ -271,10 +309,7 @@ class BarChartRace {
   }
 
   stop() {
-    d3.select(`#${this.chartId}`)
-      .selectAll("*")
-      .interrupt();
-
+    this.chartContainer.selectAll("*").interrupt();
     return this;
   }
 
