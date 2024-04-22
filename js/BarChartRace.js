@@ -1,7 +1,7 @@
 class BarChartRace {
   constructor(chartId, extendedSettings) {
     this.chartSettings = {
-      width: 500,
+      width: 600,
       height: 500,
       padding: 40,
       titlePadding: 5,

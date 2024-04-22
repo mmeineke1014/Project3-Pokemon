@@ -1,9 +1,77 @@
 let heatmap
 
+
+function generateDataTable(data) {
+  // Initialize an object to store cumulative totals for each character
+  const characterTotals = {};
+
+  // Calculate cumulative totals for each character
+  data.forEach(dialogueLine => {
+      const character = dialogueLine.character;
+      
+      // Update cumulative total for the character
+      characterTotals[character] = (characterTotals[character] || 0) + 1;
+  });
+
+  // Create a table element
+  const table = document.createElement('table');
+
+  // Create the table header
+  const header = table.createTHead();
+  const headerRow = header.insertRow();
+  const headerCell1 = document.createElement('th');
+  headerCell1.textContent = 'Character';
+  headerRow.appendChild(headerCell1);
+  const headerCell2 = document.createElement('th');
+  headerCell2.textContent = 'Cumulative Total';
+  headerRow.appendChild(headerCell2);
+
+  // Create the table body
+  const body = table.createTBody();
+  Object.entries(characterTotals).forEach(([character, total], index) => {
+      const row = body.insertRow();
+      const cell1 = row.insertCell();
+      cell1.textContent = character;
+      const cell2 = row.insertCell();
+      cell2.textContent = total;
+
+      // Apply alternating row shading
+      if (index % 2 === 0) {
+          row.style.backgroundColor = '#f2f2f2'; // Light gray background color
+      }
+  });
+
+  // Get the bar chart container element
+  const barChartContainer = document.getElementById('bar-chart-container');
+
+  // Calculate the offset of the bar chart container
+  const offsetLeft = barChartContainer.getBoundingClientRect().left;
+  const offsetTop = barChartContainer.getBoundingClientRect().top;
+
+  // Apply CSS to position the table within the bar chart container
+  table.style.position = 'absolute';
+  table.style.top = offsetTop + 'px';
+  table.style.right = offsetLeft + 'px';
+  table.style.padding = '20px'; // Optional: Add padding for spacing
+  table.style.maxWidth = '500px'; // Limit the table width to 500 pixels
+  table.style.maxHeight = '600px'; // Limit the table width to 500 pixels
+  table.style.overflow = 'auto'; // Add scrollbar when content exceeds the height
+
+  return table;
+}
+
 d3.csv('data/pokemonDP.csv')
   .then(data => {
+
+    // Generate the data table
+    const dataTable = generateDataTable(data);
+    const dataTableContainer = document.getElementById("bar-chart-container");
+    dataTableContainer.appendChild(dataTable);
+
+    
     // Data preprocessing and generation
     const dataSets = generateDataSets(data);
+    
 
     // Create and render the bar chart race
     const chart = new BarChartRace("chart", { /* extended settings */ }) // Instantiate the BarChartRace class
