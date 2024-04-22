@@ -72,6 +72,7 @@ class BarChartRace {
         .attr("x", this.chartSettings.padding)
         .attr("y", this.chartSettings.padding - 15)
         .attr("text-anchor", "start") // Align to the start of the text (left)
+        .style("font-size", "larger") // Increase the font size
         .style("font-weight", "bold") // Make the text bold
         .text("Pokemon DP Bar Chart Race");
   
@@ -81,6 +82,7 @@ class BarChartRace {
         .attr("x", this.chartSettings.width - this.chartSettings.padding)
         .attr("y", this.chartSettings.padding - 15)
         .attr("text-anchor", "end") // Align to the end of the text (right)
+        .style("font-size", "larger") // Increase the font size
         .style("font-weight", "bold") // Make the text bold
         .text("Current Episode:");
 
@@ -309,7 +311,9 @@ class BarChartRace {
         .attr("x", this.chartSettings.padding)
         .attr("y", this.chartSettings.padding - 15)
         .style("font-weight", "bold") // Make the text bold
+        .style("font-size", "larger") // Increase the font size
         .attr("text-anchor", "start") // Align to the start of the text (left)
+        
 
     // Update the "Current Episode" text position
     d3.select(".current-date")
@@ -317,6 +321,7 @@ class BarChartRace {
         .attr("y", this.chartSettings.padding - 15)
         .attr("text-anchor", "end") // Align to the end of the text (right)
         .style("font-weight", "bold") // Make the text bold
+        .style("font-size", "larger") // Increase the font size
         .text(title);
 
     return this;
