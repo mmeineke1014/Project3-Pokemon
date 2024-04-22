@@ -30,9 +30,13 @@ class BarChartRace {
       "Barry"
       
     ])
+    //#FDD835 is Pikachu yellow
+    //##990066 is jessie's hair
+    //#4169E1 james hair
+    //#D1001F Red for Ash bar
     .range([
-      "magenta", "beige", "red", "purple", 
-      "blue", "yellow", "brown", "black", "orange", 
+      "lightpink", "beige", "#D1001F", "#990066", 
+      "#4169E1", "#FDD835", "brown", "black", "orange", 
       "green"
     ]);
 
