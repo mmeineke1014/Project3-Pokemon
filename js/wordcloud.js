@@ -70,6 +70,7 @@ class WordCloud {
       var margin = {top: 10, right: 10, bottom: 10, left: 10},
             width = vis.config.containerWidth - margin.left - margin.right,
             height = vis.config.containerHeight - margin.top - margin.bottom;
+            console.log(width + "," + height);
       vis.layout = d3.layout.cloud()
           .size([width, height])
           .words(myWords.map(function(d) { return {text: d.Dialouge, amount: d.Amount}; }))
