@@ -175,7 +175,12 @@ d3.csv('data/pokemonDP.csv')
     heatmap.config.containerHeight = document.getElementById("heatmap_div").clientHeight;
     heatmap.config.containerWidth = document.getElementById("heatmap_div").clientWidth;
 
+    wordCloud.config.containerHeight = document.getElementById("wordcould_div").clientHeight;
+    wordCloud.config.containerWidth = document.getElementById("wordcloud_div").clientWidth;
+
+
     heatmap.updateVis();
+    wordCloud.updateVis();
   }
 
   function onButtonClick(event){
