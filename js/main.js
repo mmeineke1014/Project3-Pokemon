@@ -1,4 +1,5 @@
 let heatmap
+let wordCloud
 
 document.addEventListener('DOMContentLoaded', function() {
   // Variable to track the music state
@@ -122,7 +123,7 @@ d3.csv('data/pokemonDP.csv')
     // Data preprocessing and generation
     const dataSets = generateDataSets(data);
     
-
+    
     // Create and render the bar chart race
     const chart = new BarChartRace("chart", { /* extended settings */ }) // Instantiate the BarChartRace class
       .addDatasets(dataSets)
@@ -141,8 +142,21 @@ d3.csv('data/pokemonDP.csv')
     console.error("Error loading the CSV file:", error);
   });
 
-  addEventListener("resize", resizeVisualizations);
+  wcHeight = document.getElementById("wordcloud_div").clientHeight;
+  wcWidth = document.getElementById("wordcloud_div").clientWidth;
+  d3.csv('data/char_dialouge.csv')
+    .then(data=> {
+      wordCloud = new WordCloud({
+        'parentElement': "#wordcloud",
+        "containerWidth": wcWidth,
+        "containerHeight": wcHeight
+      }, data, "ASH")
+    })
+    .catch(error=> {
+      console.log("Error loading CSV:", error);
+    })
 
+  addEventListener("resize", resizeVisualizations);
   document.getElementById("ASH").addEventListener("click", onButtonClick);
   document.getElementById("PIKACHU").addEventListener("click", onButtonClick);
   document.getElementById("DAWN").addEventListener("click", onButtonClick);
@@ -172,6 +186,9 @@ d3.csv('data/pokemonDP.csv')
     //update the character for the Heatmap
     heatmap.character = newCharacter;
     heatmap.updateVis();
+
+    wordCloud.character = newCharacter;
+    wordCloud.updateVis();
 
     //Update the character info
     document.getElementById("characterName").innerHTML = event.target.alt;
