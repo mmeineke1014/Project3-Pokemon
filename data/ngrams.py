@@ -15,7 +15,7 @@ def character_corpus(unique_characters, person_text_pairings):
 
             character = character.removeprefix("\"")
             character = character.removesuffix("\"")
-            if character not in unique_characters:
+            if character not in unique_characters: 
                 unique_characters.append(character)
                 person_text_pairings[character] = []
                 
@@ -30,7 +30,8 @@ def character_corpus(unique_characters, person_text_pairings):
     return person_text_pairings
 
 def dialouge_count(pairings):
-    bad_words = ["The", "Wow", "But", "And", "All right", "Hey", "Yeah", "Okay", "Well", "Now", "Whoa", "Oh", "So", "No"]
+    bad_words = ["The", "Wow", "But", "And", "All right", "Hey", "Yeah", "Okay", "Well", "Now", "Whoa", "Oh", "So", "No",
+                 "Uh", "Thanks", "Right", "Yes", "See", "What"]
     count_of = {}
     character_counts = {}
     for keys in pairings:
